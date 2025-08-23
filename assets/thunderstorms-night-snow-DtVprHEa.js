@@ -1,0 +1,1 @@
+const s="/frost-app/assets/thunderstorms-night-snow-DGh-T07r.svg";export{s as default};
