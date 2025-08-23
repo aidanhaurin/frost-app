@@ -1,7 +1,7 @@
 {
   "name": "frost-app",
   "private": true,
-  "homepage": "https://aghaurin.github.io/frost-app",
+  "homepage": "https://aidanhaurin.github.io/frost-app",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
