@@ -1,0 +1,7 @@
+clear sky day: https://unsplash.com/photos/white-clouds-and-blue-sky-during-daytime-ROVBDer29PQ
+
+clear sky night: https://unsplash.com/photos/stars-at-sky-Y61qTmRLcho
+
+cloudy day: https://unsplash.com/photos/white-and-blue-cloudy-sky-f5_lfi2S-d4
+
+cloudy night: https://unsplash.com/photos/clouds-in-the-sky-Y3vsGbFCX-o

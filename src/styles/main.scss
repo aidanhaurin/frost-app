@@ -1,0 +1,408 @@
+/* --------------------------------------------------
+ * Imports
+ * -------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&display=swap');
+
+/* --------------------------------------------------
+ * Variables
+ * -------------------------------------------------- */
+$ui_dark_panel: rgba(20, 30, 60, 0.75);
+$ui_dark_panelborder: rgba(255, 255, 255, 0.3);
+$ui_dark_panel_active: rgba(30, 65, 100, 0.75);
+$ui_dark_panelborder_active: rgba(155, 190, 255, 0.4);
+$ui_dark_panel_noalpha: rgb(20, 30, 60);
+$ui_dark_text_faded: rgb(75, 90, 160);
+
+/* --------------------------------------------------
+ * Animations
+ * -------------------------------------------------- */
+@keyframes spinner {
+    from {
+      rotate: 0deg;
+    }
+    to {
+      rotate: 360deg;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+}
+
+/* --------------------------------------------------
+ * Base Styles
+ * -------------------------------------------------- */
+body {
+  font-family: 'Fira Sans', sans-serif;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url("./src/assets/backgrounds/clear-sky-day.avif");
+  transition: background-image 0.5s ease-in-out;
+  background-color: $ui_dark_panel_noalpha;
+  z-index: 0;
+  margin: 0;
+}
+
+#app {
+  margin: 0;
+  padding: 0;
+}
+
+#main {
+  transition: all 0.2s ease-in-out;
+  min-height: 100vh;
+  padding-top: 2em;
+}
+
+/* --------------------------------------------------
+ * Layout & Containers
+ * -------------------------------------------------- */
+.leaflet-container {
+  height: 60vh;
+  width: 100%;
+}
+
+.container {
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  background-color: $ui_dark_panel;
+  border-radius: 12px;
+  border: 1px solid $ui_dark_panelborder;
+  margin: 1em;
+  color: white;
+  padding: 1em;
+  position: relative;
+  z-index: 0;
+
+  animation: fadeIn 0.5s linear forwards;
+}
+
+#main {
+  width: 60%;
+  margin: 5em auto;
+  justify-content: center;
+}
+
+#main_top {
+  display: flex;
+  justify-content: center;
+}
+
+#main_top_current {
+  width: 80%;
+}
+
+#navbar {
+  display: flex;
+  justify-content: space-evenly;
+  z-index: 99;
+
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgb(20, 30, 60);
+  color: white;
+  align-items: center;
+  padding-top: 0.75em;
+  padding-bottom: 0.75em;
+
+  #navbar-logo {
+    float: left;
+    padding-left: 1em;
+  }
+
+  #navbar-extras {
+    float: right;
+    padding-right: 1em;
+  }
+
+  #navbar-search {
+    display: flex;
+    gap: 1em;
+  }
+}
+
+#container_past_searches {
+  width: 20%;
+  height: fit-content;
+  float: right;
+}
+
+/* --------------------------------------------------
+ * Components
+ * -------------------------------------------------- */
+#button_celsius {
+  background: none;
+  border: white;
+  color: white;
+  cursor: pointer;
+  float: right;
+
+  div {
+    font-size: 16pt;
+  }
+}
+
+.search-bar {
+  border: 1px solid transparent;
+  border-radius: 2em;
+  background-color: white;
+  color: black;
+  display: flex;
+  align-items: center;
+  padding: 0.75em 0 0.75em 1em;
+  z-index: 99;
+
+  input {
+    background-color: transparent;
+    border: none;
+    width: 25em;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  #search_icon {
+    cursor: pointer;
+    padding-right: 1em;
+  }
+}
+
+.container-suggestions {
+  z-index: 100;
+
+  .suggestion-list {
+    color: black;
+    list-style-type: none;
+    position: absolute;
+    z-index: 101;
+    padding-left: 0;
+    margin-top: 0;
+    width: 25em;
+
+    li {
+      border: 1px solid #d4d4d4;
+      cursor: pointer;
+      background-color: #fff;
+      border-bottom: 1px solid #d4d4d4;
+      padding: 0.5em 1em 0.5em 1em;
+
+      &:hover {
+        background-color: #e9e9e9;
+      }
+    }
+  }
+}
+
+.past-entry {
+  list-style: none;
+  width: fit-content;
+  transition: all 0.1s ease-in-out;
+
+  &:hover {
+    transform: translateY(-8px);
+    text-decoration: underline;
+    color: dodgerblue;
+    cursor: pointer;
+  }
+}
+
+#geoButton {
+  color: white;
+  background-color: rgb(70, 130, 225);
+  border: 2px solid transparent;
+  border-radius: 4em;
+  padding: 1em;
+  font-weight: bold;
+
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    color: rgb(70, 130, 225);
+    background-color: white;
+    transform: translateY(-4px);
+    cursor: pointer;
+  }
+}
+
+#navbar-extras {
+  color: white;
+  font-size: 16pt;
+  padding-right: 1em;
+
+  gap: 1em;
+  align-items: center;
+  display: flex;
+
+  a {
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+
+    &:visited {
+      color: white;
+    }
+
+    &:hover {
+      color: rgb(70, 130, 225);
+      transform: translateY(-8px);
+      cursor: pointer;
+    }
+  }
+}
+
+#div_skeleton {
+  font-size: 24pt;
+  text-align: center;
+}
+
+#skeleton_spinner {
+  height: 10em;
+  font-size: 36pt;
+  animation-name: spinner;
+  animation-duration: 5000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear; 
+}
+
+/* --------------------------------------------------
+ * Current Weather Display
+ * -------------------------------------------------- */
+.current-sub-panel {
+  display: flex;
+  align-items: center;
+
+  div + div {
+    padding-left: 1em;
+    text-align: center;
+  }
+
+  i {
+    font-size: 24pt;
+  }
+}
+
+.current-content {
+  padding-top: 2em;
+  display: flex;
+  align-items: center;
+  margin: auto;
+  justify-content: space-evenly;
+
+  .current-content-left + .current-content-right {
+    border-left: 1px solid $ui_dark_panelborder;
+  }
+
+  .current-content-left {
+    padding-left: 1em;
+    padding-right: 2em;
+  }
+
+  .current-content-right {
+    padding-left: 2em;
+    padding-right: 1em;
+  }
+}
+
+.current-content-temp {
+  display: flex;
+  height: fit-content;
+  align-items: center;
+
+  img {
+    height: 15em;
+  }
+}
+
+/* --------------------------------------------------
+ * Hourly Weather Display
+ * -------------------------------------------------- */
+
+  .hourly-forecast {
+    list-style-type: none;
+    display: inline;
+  }
+
+
+ /* --------------------------------------------------
+ * Weekly Weather Display
+ * -------------------------------------------------- */
+
+ .weekly-forecast {
+   list-style-type: none;
+   justify-content: center;
+
+   img {
+    height: 5em;
+   }
+ }
+
+ .weekly-subpanel {
+   display: flex;
+   align-items: center;
+   gap: 0.5em;
+ }
+
+  /* --------------------------------------------------
+ * Footer Panel
+ * -------------------------------------------------- */
+
+ .footer-container {
+    background-color: $ui_dark_panel_noalpha;
+    color: $ui_dark_text_faded;
+    
+    width: 100%;
+    bottom: 0;
+    padding-top: 0.5em;
+    padding-bottom: 5em;
+    text-align: center;
+ }
+
+ .footer-sidelist {
+    display: flex;
+    justify-content: space-evenly;
+    list-style-type: none;
+
+    .footer-sublist { 
+      display: block;
+      text-align: left;
+      width: 20em;
+
+      h2 {
+        color: white;
+      }
+
+      a {
+          color: $ui_dark_text_faded;
+          text-decoration: none;
+          transition: all 0.2s ease-in-out;
+
+          &:hover {
+            text-decoration: underline;
+            color: dodgerblue;
+          }
+        }
+    }
+ }
+
+ .a-hoverable {
+    color: dodgerblue;
+    transition: all 0.2s ease-in-out;
+
+    &:visited {
+      color: dodgerblue;
+    }
+
+    &:hover {
+      opacity: 80%;
+    }
+ }
