@@ -1,21 +1,18 @@
 import {useEffect, useState} from 'react';
 import type InterfaceData from '../../interfaces/InterfaceData';
-import SearchBar from '../layout/searchbar/SearchBar';
-import GeoButton from '../layout/searchbar/GeoButton';
 import type Suggestion from '../../interfaces/InterfaceSuggestion';
 import { saveSearch } from '../../services/saveSearch';
 import { setBackground } from '../../services/setBackground';
-import FooterPanel from '../layout/FooterPanel';
-import { Link, Route, Routes, useNavigate } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Forecast from './Forecast';
 import About from './About';
+import Layout from './Layout';
 
 const DataRouter = () => {
     // The React hooks
     const [weatherData, setWeatherData] = useState<InterfaceData | null>(null);   // Holds current forecast data
     const [pastSearches, setPastSearches] = useState<Suggestion[]>([]);           // Save a list of past searches
     const [isLoading, setIsLoading] = useState<boolean>(false);                    // Loading animation check
-    const navigate = useNavigate();
 
     // Extra variables
     let isStartup = true;
@@ -52,51 +49,36 @@ const DataRouter = () => {
             // Change the background to fit weather code
             setBackground(weatherData?.current.weatherCode, Boolean(weatherData?.current.isDay));
 
-            // Move to forecasting (main) page
-            navigate("/");
-        }
-
-        console.log(weatherData);
+            // Go to forecast page
+            router.navigate("/");
+        }//if
     }, [weatherData]);
 
-    return <>
-            {/* Navbar with links */}
-            <div id='navbar'>
-                <div id='navbar-logo'>
-                    <h3><i className="bi bi-snow"></i> F.R.O.S.T. Weather App</h3>
-                </div>
-                <div id='navbar-search'>
-                    <SearchBar setWeatherData={setWeatherData} setIsLoading={setIsLoading}/>
-                    <GeoButton setWeatherData={setWeatherData} setIsLoading={setIsLoading}/>
-                </div>
-                <div id='navbar-extras'>
-                    <Link to="/">Search</Link>
-                    <Link to="/about">About</Link>
-                </div>
-            </div>
+    // Page Routing
+    const router = createBrowserRouter([
+        {
+            path: '/',
+            element: <Layout setWeatherData={setWeatherData} setIsLoading={setIsLoading}/>,
+            children: [
+            {
+                index: true,
+                element: <Forecast 
+                    weatherData={weatherData}
+                    setWeatherData={setWeatherData}
+                    isLoading={isLoading}
+                    setIsLoading={setIsLoading}
+                    pastSearches={pastSearches} 
+                />,
+            },
+            {
+                path: 'about',
+                element: <About/>,
+            },
+            ],
+        },
+    ]);
 
-            {/* This is where the routing happens */}
-            <div id='main'>
-                <Routes>
-                    <Route path='/' element={
-                        <Forecast 
-                            weatherData={weatherData}
-                            setWeatherData={setWeatherData}
-                            isLoading={isLoading}
-                            setIsLoading={setIsLoading}
-                            pastSearches={pastSearches}    
-                        ></Forecast>}>
-                    </Route>
-                    <Route path='/about' element={
-                        <About>
-                        </About>}>
-                    </Route>
-                </Routes>
-            </div>
-
-            {/* Footer */}
-            <FooterPanel></FooterPanel>
-    </>
+    return <RouterProvider router={router} />;
 };//Component
 
 export default DataRouter;

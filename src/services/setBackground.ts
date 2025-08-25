@@ -4,11 +4,11 @@ export const setBackground = (code: number, isDay: boolean) => {
     switch (code) {
             case 0:
             case 1:
-                src = isDay ? "clear-sky-day.avif" : "clear-sky-night.avif";
+                src = isDay ? "clear-sky-day.webp" : "clear-sky-night.webp";
                 break;
 
             default:
-                src = isDay ? "cloudy-sky-day.avif" : "cloudy-sky-night.avif";
+                src = isDay ? "cloudy-sky-day.webp" : "cloudy-sky-night.webp";
                 break;
     }//switch
 

@@ -1,12 +1,10 @@
 {
   "name": "frost-app",
+  "homepage": "/",
   "private": true,
-  "homepage": "https://aidanhaurin.github.io/frost-app",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",

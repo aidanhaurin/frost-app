@@ -1,12 +1,12 @@
 /* --------------------------------------------------
- * Imports
+ * 1.) Imports
  * -------------------------------------------------- */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&display=swap');
 
 /* --------------------------------------------------
- * Variables
+ * 2.) Variables
  * -------------------------------------------------- */
 $ui_dark_panel: rgba(20, 30, 60, 0.75);
 $ui_dark_panelborder: rgba(255, 255, 255, 0.3);
@@ -16,7 +16,7 @@ $ui_dark_panel_noalpha: rgb(20, 30, 60);
 $ui_dark_text_faded: rgb(75, 90, 160);
 
 /* --------------------------------------------------
- * Animations
+ * 3.) Animations
  * -------------------------------------------------- */
 @keyframes spinner {
     from {
@@ -37,14 +37,14 @@ $ui_dark_text_faded: rgb(75, 90, 160);
 }
 
 /* --------------------------------------------------
- * Base Styles
+ * 4.) Body and App Style
  * -------------------------------------------------- */
 body {
   font-family: 'Fira Sans', sans-serif;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  background-image: url("./src/assets/backgrounds/clear-sky-day.avif");
+  background-image: url("./src/assets/backgrounds/clear-sky-day.webp");
   transition: background-image 0.5s ease-in-out;
   background-color: $ui_dark_panel_noalpha;
   z-index: 0;
@@ -56,14 +56,29 @@ body {
   padding: 0;
 }
 
+/* --------------------------------------------------
+ * 5.) Main and Main Top
+ * -------------------------------------------------- */
 #main {
   transition: all 0.2s ease-in-out;
   min-height: 100vh;
   padding-top: 2em;
+  width: 60%;
+  margin: 5em auto;
+  justify-content: center;
+}
+
+#main_top {
+  display: flex;
+  justify-content: center;
+}
+
+#main_top_current {
+  width: 80%;
 }
 
 /* --------------------------------------------------
- * Layout & Containers
+ * Containers
  * -------------------------------------------------- */
 .leaflet-container {
   height: 60vh;
@@ -85,21 +100,9 @@ body {
   animation: fadeIn 0.5s linear forwards;
 }
 
-#main {
-  width: 60%;
-  margin: 5em auto;
-  justify-content: center;
-}
-
-#main_top {
-  display: flex;
-  justify-content: center;
-}
-
-#main_top_current {
-  width: 80%;
-}
-
+/* --------------------------------------------------
+ * Navbar
+ * -------------------------------------------------- */
 #navbar {
   display: flex;
   justify-content: space-evenly;
@@ -131,27 +134,34 @@ body {
   }
 }
 
-#container_past_searches {
-  width: 20%;
-  height: fit-content;
-  float: right;
-}
-
-/* --------------------------------------------------
- * Components
- * -------------------------------------------------- */
-#button_celsius {
-  background: none;
-  border: white;
+#navbar-extras {
   color: white;
-  cursor: pointer;
-  float: right;
+  font-size: 16pt;
+  padding-right: 1em;
 
-  div {
-    font-size: 16pt;
+  gap: 1em;
+  align-items: center;
+  display: flex;
+
+  a {
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+
+    &:visited {
+      color: white;
+    }
+
+    &:hover {
+      color: rgb(70, 130, 225);
+      transform: translateY(-8px);
+      cursor: pointer;
+    }
   }
 }
 
+/* --------------------------------------------------
+ * Search Bar
+ * -------------------------------------------------- */
 .search-bar {
   border: 1px solid transparent;
   border-radius: 2em;
@@ -204,62 +214,9 @@ body {
   }
 }
 
-.past-entry {
-  list-style: none;
-  width: fit-content;
-  transition: all 0.1s ease-in-out;
-
-  &:hover {
-    transform: translateY(-8px);
-    text-decoration: underline;
-    color: dodgerblue;
-    cursor: pointer;
-  }
-}
-
-#geoButton {
-  color: white;
-  background-color: rgb(70, 130, 225);
-  border: 2px solid transparent;
-  border-radius: 4em;
-  padding: 1em;
-  font-weight: bold;
-
-  transition: all 0.2s ease-in-out;
-
-  &:hover {
-    color: rgb(70, 130, 225);
-    background-color: white;
-    transform: translateY(-4px);
-    cursor: pointer;
-  }
-}
-
-#navbar-extras {
-  color: white;
-  font-size: 16pt;
-  padding-right: 1em;
-
-  gap: 1em;
-  align-items: center;
-  display: flex;
-
-  a {
-    text-decoration: none;
-    transition: all 0.2s ease-in-out;
-
-    &:visited {
-      color: white;
-    }
-
-    &:hover {
-      color: rgb(70, 130, 225);
-      transform: translateY(-8px);
-      cursor: pointer;
-    }
-  }
-}
-
+/* --------------------------------------------------
+ * Skeleton
+ * -------------------------------------------------- */
 #div_skeleton {
   font-size: 24pt;
   text-align: center;
@@ -272,6 +229,28 @@ body {
   animation-duration: 5000ms;
   animation-iteration-count: infinite;
   animation-timing-function: linear; 
+}
+
+/* --------------------------------------------------
+ * Past Entries
+ * -------------------------------------------------- */
+#container_past_searches {
+  width: 20%;
+  height: fit-content;
+  float: right;
+}
+
+.past-entry {
+  list-style: none;
+  width: fit-content;
+  transition: all 0.1s ease-in-out;
+
+  &:hover {
+    transform: translateY(-8px);
+    text-decoration: underline;
+    color: dodgerblue;
+    cursor: pointer;
+  }
 }
 
 /* --------------------------------------------------
@@ -324,19 +303,52 @@ body {
 }
 
 /* --------------------------------------------------
+ * Celsius Toggle
+ * -------------------------------------------------- */
+#button_celsius {
+  background: none;
+  border: white;
+  color: white;
+  cursor: pointer;
+  float: right;
+
+  div {
+    font-size: 16pt;
+  }
+}
+
+/* --------------------------------------------------
+ * Geolocation Button
+ * -------------------------------------------------- */
+#geoButton {
+  color: white;
+  background-color: rgb(70, 130, 225);
+  border: 2px solid transparent;
+  border-radius: 4em;
+  padding: 1em;
+  font-weight: bold;
+
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    color: rgb(70, 130, 225);
+    background-color: white;
+    transform: translateY(-4px);
+    cursor: pointer;
+  }
+}
+
+/* --------------------------------------------------
  * Hourly Weather Display
  * -------------------------------------------------- */
+.hourly-forecast {
+  list-style-type: none;
+  display: inline;
+}
 
-  .hourly-forecast {
-    list-style-type: none;
-    display: inline;
-  }
-
-
- /* --------------------------------------------------
+/* --------------------------------------------------
  * Weekly Weather Display
  * -------------------------------------------------- */
-
  .weekly-forecast {
    list-style-type: none;
    justify-content: center;
@@ -352,10 +364,9 @@ body {
    gap: 0.5em;
  }
 
-  /* --------------------------------------------------
+/* --------------------------------------------------
  * Footer Panel
  * -------------------------------------------------- */
-
  .footer-container {
     background-color: $ui_dark_panel_noalpha;
     color: $ui_dark_text_faded;
@@ -394,6 +405,9 @@ body {
     }
  }
 
+/* --------------------------------------------------
+ * Clickable links for the About page
+ * -------------------------------------------------- */
  .a-hoverable {
     color: dodgerblue;
     transition: all 0.2s ease-in-out;
