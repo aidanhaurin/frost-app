@@ -1,6 +1,6 @@
 # F.R.O.S.T. Weather App
 ### by Aidan Haurin
-======
+------
 
 ## What is the F.R.O.S.T. App?
 
